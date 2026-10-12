@@ -1,0 +1,96 @@
+<Page
+    x:Class="WinActivityTracker.Pages.HourlyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer>
+        <StackPanel Spacing="16" Margin="4,0,4,8" MaxWidth="1180" HorizontalAlignment="Stretch">
+
+            <!-- Навигация по дням/неделям/месяцам -->
+            <Border Style="{StaticResource CardBorder}" Padding="12,10">
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button Content="Сегодня" Click="Today_Click" />
+                    <AppBarSeparator />
+                    <Button ToolTipService.ToolTip="Месяц назад" Click="PrevMonth_Click"><FontIcon Glyph="&#xE892;&#xE892;" FontSize="10" /></Button>
+                    <Button ToolTipService.ToolTip="Неделя назад" Click="PrevWeek_Click"><TextBlock Text="‹ нед" /></Button>
+                    <Button ToolTipService.ToolTip="День назад" Click="PrevDay_Click"><FontIcon Glyph="&#xE892;" FontSize="12" /></Button>
+                    <CalendarDatePicker x:Name="DayPicker" MinWidth="190"
+                                        DateFormat="{}{day.integer} {month.full} {year.full}"
+                                        DateChanged="DayPicker_DateChanged" />
+                    <Button ToolTipService.ToolTip="День вперёд" Click="NextDay_Click"><FontIcon Glyph="&#xE893;" FontSize="12" /></Button>
+                    <Button ToolTipService.ToolTip="Неделя вперёд" Click="NextWeek_Click"><TextBlock Text="нед ›" /></Button>
+                    <Button ToolTipService.ToolTip="Месяц вперёд" Click="NextMonth_Click"><FontIcon Glyph="&#xE893;&#xE893;" FontSize="10" /></Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Карточки за выбранный день -->
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Всего за день" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                        <TextBlock x:Name="StatTotal" Text="-" FontSize="22" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Активных часов" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                        <TextBlock x:Name="StatActive" Text="-" FontSize="22" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Пик" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                        <TextBlock x:Name="StatPeak" Text="-" FontSize="22" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3" Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Диапазон" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                        <TextBlock x:Name="StatRange" Text="-" FontSize="22" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- График по часам -->
+            <Border Style="{StaticResource CardBorder}">
+                <StackPanel Spacing="14">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" x:Name="DayTitle" Text="Активность по часам" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" x:Name="YMax" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Border CornerRadius="8" Padding="14,12"
+                            Background="{ThemeResource ControlAltFillColorSecondaryBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                        <StackPanel Spacing="8">
+                            <Grid x:Name="Plot" Height="200" ColumnSpacing="5" />
+                            <Grid x:Name="Labels" ColumnSpacing="5" />
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" Spacing="18">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Rectangle Width="12" Height="12" RadiusX="3" RadiusY="3" Fill="#A082F5" />
+                            <TextBlock Text="Игры" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Rectangle Width="12" Height="12" RadiusX="3" RadiusY="3" Fill="#4CC2FF" />
+                            <TextBlock Text="Приложения" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

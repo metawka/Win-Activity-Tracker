@@ -1,0 +1,83 @@
+<Page
+    x:Class="WinActivityTracker.Pages.OverviewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctl="using:WinActivityTracker.Ui.Controls">
+
+    <ScrollViewer>
+        <StackPanel Spacing="16" Padding="4,0,4,8">
+
+            <!-- Время работы экрана - крупно, во всю ширину -->
+            <Border Style="{StaticResource CardBorder}">
+                <StackPanel Spacing="4">
+                    <TextBlock x:Name="ScreenLabel" Text="Время работы экрана за сегодня"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                    <TextBlock x:Name="ScreenText" Text="-" FontSize="40" FontWeight="SemiBold" LineHeight="46" />
+                </StackPanel>
+            </Border>
+
+            <!-- Разбивка -->
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="В приложениях и играх" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock x:Name="TotalText" Text="-" Style="{StaticResource TitleTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="10" Height="10" Fill="#A082F5" VerticalAlignment="Center" />
+                            <TextBlock Text="Игры" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <TextBlock x:Name="GameText" Text="-" Style="{StaticResource TitleTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Ellipse Width="10" Height="10" Fill="#4CC2FF" VerticalAlignment="Center" />
+                            <TextBlock Text="Приложения" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <TextBlock x:Name="AppText" Text="-" Style="{StaticResource TitleTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Соотношение игр и приложений -->
+            <Border Style="{StaticResource CardBorder}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Игры и приложения" FontWeight="SemiBold" />
+                    <Border CornerRadius="7" Height="14" Background="{ThemeResource ControlAltFillColorSecondaryBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="ColGame" Width="0*" />
+                                <ColumnDefinition x:Name="ColApp" Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Column="0" Fill="#A082F5" />
+                            <Rectangle Grid.Column="1" Fill="#4CC2FF" />
+                        </Grid>
+                    </Border>
+                    <TextBlock x:Name="SplitText" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                </StackPanel>
+            </Border>
+
+            <!-- Топ приложений и игр -->
+            <Border Style="{StaticResource CardBorder}" Padding="4,16,4,4">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Больше всего времени" FontWeight="SemiBold" Margin="12,0,0,0" />
+                    <ctl:ActivityGridView x:Name="TopGrid" Height="360" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

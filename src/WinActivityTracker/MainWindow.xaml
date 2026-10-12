@@ -1,0 +1,110 @@
+<Window
+    x:Class="WinActivityTracker.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Кастомный заголовок на Mica, без белой системной полосы -->
+        <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40" Background="Transparent">
+            <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center" Margin="14,0,0,0">
+                <FontIcon Glyph="&#xE9D9;" FontSize="15" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" />
+                <TextBlock Text="Трекер активности" VerticalAlignment="Center" FontSize="12"
+                           Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
+            </StackPanel>
+        </Grid>
+
+        <InfoBar x:Name="CollectorBar" Grid.Row="1"
+                 Severity="Warning" IsOpen="False" IsClosable="True"
+                 Title="Подсчёт выключен"
+                 Message="Время не записывается, пока фоновый счётчик выключен."
+                 Margin="12,4,12,0">
+            <InfoBar.ActionButton>
+                <Button Content="Включить подсчёт" Click="EnableCollector_Click" />
+            </InfoBar.ActionButton>
+        </InfoBar>
+
+        <NavigationView x:Name="Nav" Grid.Row="2"
+                        PaneDisplayMode="Left"
+                        OpenPaneLength="210"
+                        IsSettingsVisible="True"
+                        IsBackButtonVisible="Collapsed"
+                        IsPaneToggleButtonVisible="True"
+                        SelectionChanged="Nav_SelectionChanged">
+
+            <NavigationView.Resources>
+                <!-- Докнутая панель: не overlay, поэтому прозрачна и на ней видна Mica окна,
+                     без просвечивания контента. Единый фон на всё окно. -->
+                <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+            </NavigationView.Resources>
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Обзор" Tag="overview" IsSelected="True">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE9D2;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Процессы" Tag="processes">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE9D9;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="По часам" Tag="hourly">
+                    <NavigationViewItem.Icon><SymbolIcon Symbol="Clock" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Сеансы" Tag="sessions">
+                    <NavigationViewItem.Icon><SymbolIcon Symbol="Calendar" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem Content="Приложения" Tag="apps">
+                    <NavigationViewItem.Icon><SymbolIcon Symbol="AllApps" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Игры" Tag="games">
+                    <NavigationViewItem.Icon><FontIcon Glyph="&#xE7FC;" /></NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
+
+            <Grid Background="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок страницы и период -->
+                <Grid Grid.Row="0" Padding="24,18,24,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="HeaderTitle" Grid.Column="0" Text="Процессы"
+                               FontSize="26" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Spacing="8" HorizontalAlignment="Right">
+                        <muxc:SelectorBar x:Name="RangeBar" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                          SelectionChanged="Range_SelectionChanged">
+                            <muxc:SelectorBarItem Text="Сегодня" Tag="today" IsSelected="True" />
+                            <muxc:SelectorBarItem Text="Неделя" Tag="week" />
+                            <muxc:SelectorBarItem Text="Месяц" Tag="month" />
+                            <muxc:SelectorBarItem Text="Всё время" Tag="all" />
+                            <muxc:SelectorBarItem Text="Период" Tag="custom" />
+                        </muxc:SelectorBar>
+                        <StackPanel x:Name="CustomRangePanel" Orientation="Horizontal" Spacing="8"
+                                    HorizontalAlignment="Right" Visibility="Collapsed">
+                            <CalendarDatePicker x:Name="FromPicker" Header="с" DateFormat="{}{day.integer} {month.abbreviated} {year.full}"
+                                                MinWidth="150" DateChanged="CustomDate_Changed" />
+                            <CalendarDatePicker x:Name="ToPicker" Header="по" DateFormat="{}{day.integer} {month.abbreviated} {year.full}"
+                                                MinWidth="150" DateChanged="CustomDate_Changed" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Frame x:Name="ContentFrame" Grid.Row="1" Padding="16,0,16,12" />
+            </Grid>
+        </NavigationView>
+    </Grid>
+</Window>

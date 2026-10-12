@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>WinActivityTracker</RootNamespace>
+    <AssemblyName>WatCounter</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <!-- Как в Диспетчере задач: имя процесса-счётчика отличается от окна. -->
+    <AssemblyTitle>Windows Activity Tracker - Counter</AssemblyTitle>
+    <ApplicationIcon>..\WinActivityTracker\Assets\app.ico</ApplicationIcon>
+    <Company>metawka</Company>
+    <Product>Windows Activity Tracker</Product>
+    <Description>Windows Activity Tracker Counter (фоновый подсчёт экранного времени)</Description>
+    <Version>1.0.$([System.DateTime]::Now.DayOfYear).$([System.DateTime]::Now.ToString('HHmm'))</Version>
+
+    <!-- Экономия памяти: рабочий GC без конкурентности, инвариантная глобализация,
+         отключение неиспользуемых фич рантайма. -->
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <EventSourceSupport>false</EventSourceSupport>
+    <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+    <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+    <UseSystemResourceKeys>true</UseSystemResourceKeys>
+    <DebuggerSupport>false</DebuggerSupport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="10.0.12" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.12" />
+  </ItemGroup>
+
+  <!-- Переиспользуем ядро из основного проекта (эти папки не зависят от WinUI). -->
+  <ItemGroup>
+    <Compile Include="..\WinActivityTracker\Config\**\*.cs" />
+    <Compile Include="..\WinActivityTracker\Data\**\*.cs" />
+    <Compile Include="..\WinActivityTracker\Tracking\**\*.cs" />
+    <Compile Include="..\WinActivityTracker\Interop\**\*.cs" />
+    <Compile Include="..\WinActivityTracker\Autostart\**\*.cs" />
+  </ItemGroup>
+
+</Project>

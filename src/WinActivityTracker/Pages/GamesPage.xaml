@@ -1,0 +1,12 @@
+<Page
+    x:Class="WinActivityTracker.Pages.GamesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctl="using:WinActivityTracker.Ui.Controls">
+
+    <Border Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
+            CornerRadius="8" Margin="4,0,4,4">
+        <ctl:ActivityGridView x:Name="GridView" />
+    </Border>
+</Page>

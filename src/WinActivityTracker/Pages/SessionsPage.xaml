@@ -1,0 +1,84 @@
+<Page
+    x:Class="WinActivityTracker.Pages.SessionsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="using:WinActivityTracker.Ui">
+
+    <Page.Resources>
+        <Style x:Key="SessionRowStyle" TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="12,0" />
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+    </Page.Resources>
+
+    <Grid MaxWidth="1180" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Spacing="2" Margin="12,0,0,14">
+            <TextBlock x:Name="SummaryLabel" Text="Сеансы за сегодня"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+            <TextBlock x:Name="SummaryCount" Text="-" FontSize="24" FontWeight="SemiBold" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Padding="12,6" ColumnSpacing="8"
+                  BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width="220" />
+                    <ColumnDefinition Width="140" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Text="Приложение" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                <TextBlock Grid.Column="2" Text="Категория" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                <TextBlock Grid.Column="3" Text="Период" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" />
+                <TextBlock Grid.Column="4" Text="Длительность" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="12" HorizontalAlignment="Right" />
+            </Grid>
+
+            <ListView Grid.Row="1" x:Name="List" SelectionMode="None"
+                      ItemContainerStyle="{StaticResource SessionRowStyle}"
+                      ScrollViewer.HorizontalScrollMode="Disabled" Background="Transparent">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="ui:SessionRow">
+                        <Grid Height="40" ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="130" />
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="140" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Width="16" Height="16" Source="{x:Bind IconSource}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Bind AppName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="13" />
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                <Ellipse Width="8" Height="8" Fill="{x:Bind PillBrush}" />
+                                <TextBlock Text="{x:Bind CategoryLabel}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="13" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="3" Text="{x:Bind WhenText}" VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" FontSize="13" FontFamily="Consolas, Cascadia Mono, Segoe UI" />
+                            <TextBlock Grid.Column="4" Text="{x:Bind DurationText}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                       FontSize="13" FontFamily="Consolas, Cascadia Mono, Segoe UI" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <TextBlock Grid.Row="1" x:Name="EmptyLabel" Visibility="Collapsed"
+                       Text="Сеансов за этот период пока нет."
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+    </Grid>
+</Page>
